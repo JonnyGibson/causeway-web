@@ -1,0 +1,282 @@
+.map-container {
+    position: relative;
+    width: 100%;
+    height: calc(100vh * 11/12);  /* Changed from 5/6 to 11/12 */
+    background: linear-gradient(to bottom, 
+        rgb(50, 77, 1),    /* Starting color */
+        rgb(66, 95, 4)     /* Ending color */
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;  /* Add this to ensure no overflow */
+}
+
+.map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;  /* Changed from cover to fill to ignore aspect ratio */
+}
+
+.audio-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 40px;  /* Fixed size */
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.audio-marker:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.audio-marker.intro {
+    width: 60px;
+    height: 60px;
+    font-size: 36px;
+}
+
+.audio-marker .material-icons {
+    font-size: 24px;
+    color: #304E53;
+}
+
+.audio-marker.intro .material-icons {
+    font-size: 36px;
+    color: white;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    70% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Add active state for audio markers */
+.audio-marker.active {
+    background-color: rgba(255, 255, 0, 0.5);  /* Yellow background */
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.3);  /* Yellow glow */
+}
+
+.audio-marker.active .material-icons {
+    color: rgb(50, 77, 1);  /* Darker icon color when active */
+}
+
+.audio-info, .popover-content {
+    bottom: calc(100vh * 1/12 + 20px);  /* Changed from 1/6 to 1/12 */
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Updated Toolbar Container */
+.toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(100vh * 1/12);  /* Changed from 1/6 to 1/12 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: min(4vw, 40px);
+    background: linear-gradient(to bottom, 
+        rgb(50, 77, 1),    /* Starting color */
+        rgb(66, 95, 4)     /* Ending color */
+    );
+    z-index: 10;
+}
+
+/* Remove the before pseudo-element since we're using solid color */
+.toolbar::before {
+    display: none;
+}
+
+/* Remove duplicate hex-button base styles and consolidate into one */
+.hex-button {
+    width: min(8vh, 65px);
+    height: min(9vh, 75px);
+    background: rgba(255, 255, 255, 0.15);
+    position: relative;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover state */
+.hex-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-5px);
+}
+
+/* Base active state for all buttons */
+.hex-button.active {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Map button active state */
+#mapButton.active {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+#mapButton.active .material-icons {
+    color: rgb(50, 77, 1);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Info and Menu buttons active state */
+#infoButton.active,
+#menuButton.active {
+    background: rgba(255, 255, 0, 0.4);
+}
+
+#infoButton.active .material-icons,
+#menuButton.active .material-icons {
+    color: rgb(50, 77, 1);
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+/* Icon styling */
+.hex-button .material-icons {
+    color: #fff;
+    font-size: min(4vh, 30px);
+    position: relative;
+    z-index: 1;
+}
+
+/* Audio info panel */
+.audio-info {
+    position: fixed;
+    bottom: calc(100vh * 1/12 + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(48, 78, 83, 0.95);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    display: none;
+    z-index: 1000;
+}
+
+/* Popovers styling */
+.popovers-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.popover-content {
+    position: fixed;
+    bottom: calc(100vh * 1/12 + 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(48, 78, 83, 0.95);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    display: none;
+    z-index: 1000;
+    pointer-events: auto;
+}
+
+/* Remove the arrow styles since we're using full-width popovers */
+.popover-content::after {
+    display: none;
+}
+
+/* Update content styling to match audio info */
+.popover-content h3 {
+    color: white;
+    margin-bottom: 2vh;
+    font-size: min(1.4em, 5vw);
+}
+
+.popover-content h4 {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 1.5vh 0 1vh;
+    font-size: min(1.1em, 4vw);
+}
+
+.popover-content p {
+    margin-bottom: 12px;
+    font-size: min(1em, 3.5vw);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.popover-content ul {
+    margin: 0 0 15px 20px;
+    padding: 0;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.popover-content a {
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.popover-content a:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.version {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 15px;
+    text-align: right;
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 768px) {
+    .hex-button {
+        width: min(7vh, 50px);
+        height: min(8vh, 58px);
+    }
+    
+    .hex-button .material-icons {
+        font-size: min(3.5vh, 24px);
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .toolbar {
+        gap: 2vw;
+    }
+    
+    .hex-button {
+        width: min(6vh, 45px);
+        height: min(7vh, 52px);
+    }
+} 

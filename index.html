@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Giant's Causeway Audio Guide</title>
+    <link rel="icon" href="./icon.png">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="./assets/css/style.css" rel="stylesheet">
+</head>
+<body class="m-0 p-0">
+    <div class="map-container">
+        <img src="./assets/images/map.jpg" alt="Giant's Causeway Map" class="map-image">
+        <!-- Audio markers will be added here by JavaScript -->
+    </div>
+
+    <div id="audioInfo" class="audio-info">
+        <button class="close-button">&times;</button>
+        <h3 class="mb-2"></h3>
+        <p class="mb-3"></p>
+        <audio controls class="w-100"></audio>
+    </div>
+
+    <!-- Popovers container - moved outside toolbar -->
+    <div class="popovers-container">
+        <div id="infoPopover" class="popover-content">
+            <button class="close-button">&times;</button>
+            <h3>Giant's Causeway</h3>
+            <p>The Giant's Causeway is an area of about 40,000 interlocking basalt columns, the result of an ancient volcanic fissure eruption.</p>
+            <p>Located in Northern Ireland, this UNESCO World Heritage site is steeped in both geological wonder and mythological tales.</p>
+            <h4>Quick Facts:</h4>
+            <ul>
+                <li>Formation: ~50-60 million years ago</li>
+                <li>Location: County Antrim, Northern Ireland</li>
+                <li>UNESCO Status: 1986</li>
+            </ul>
+            <p><a href="https://www.nationaltrust.org.uk/giants-causeway" target="_blank">Visit Official Site</a></p>
+        </div>
+
+        <div id="menuPopover" class="popover-content">
+            <button class="close-button">&times;</button>
+            <h3>About This Guide</h3>
+            <h4>Development Team:</h4>
+            <p>Jonny Gibson & Andrew Douglas</p>
+            <p>© Petrol Fumes Innovation</p>
+            <h4>Voice Artist: Kate Douglas</h4>
+           
+            <p class="version">Version 1.0</p>
+        </div>
+    </div>
+
+    <!-- Toolbar with updated icons -->
+    <div class="toolbar">
+        <button class="hex-button active" id="mapButton">
+            <span class="material-icons">explore</span>
+        </button>
+        <button class="hex-button" id="infoButton">
+            <span class="material-icons">tour</span>
+        </button>
+        <button class="hex-button" id="menuButton">
+            <span class="material-icons">groups</span>
+        </button>
+    </div>
+
+    <script src="./assets/js/app.js"></script>
+</body>
+</html> 

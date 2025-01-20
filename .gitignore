@@ -1,0 +1,8 @@
+# Audio files
+assets/audio/
+
+# Image files
+assets/images/
+
+# System files
+.DS_Store 
