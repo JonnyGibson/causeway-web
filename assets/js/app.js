@@ -62,7 +62,10 @@ function createAudioMarker(point) {
     icon.textContent = point.isInfo ? 'headphones' : 'play_circle';
     marker.appendChild(icon);
     
-    marker.addEventListener('click', () => showAudioInfo(point));
+    marker.addEventListener('click', () => {
+        showAudioInfo(point);
+        window.siteAnalytics.trackMapInteraction('marker_click');
+    });
     return marker;
 }
 
@@ -81,6 +84,11 @@ function showAudioInfo(point) {
     infoPanel.querySelector('p').textContent = point.description;
     const audio = infoPanel.querySelector('audio');
     audio.src = point.audioFile;
+    
+    // Track audio play and completion
+    audio.addEventListener('play', () => window.siteAnalytics.trackAudioPlay(point));
+    audio.addEventListener('ended', () => window.siteAnalytics.trackAudioComplete(point));
+    
     audio.play();
 }
 
@@ -100,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.audio-marker').forEach(marker => {
             marker.classList.remove('active');
         });
+        window.siteAnalytics.trackMapInteraction('close_info');
     });
 
     // Click outside to close
@@ -114,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.audio-marker').forEach(marker => {
                 marker.classList.remove('active');
             });
+            window.siteAnalytics.trackMapInteraction('click_outside_close');
         }
     });
 
@@ -131,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         popovers.forEach(popover => popover.style.display = 'none');
         buttons.forEach(button => button.classList.remove('active'));
         mapButton.classList.add('active'); // Map is default active state
+        window.siteAnalytics.trackMapInteraction('close_all_popovers');
     }
 
     // Handle button clicks
@@ -138,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', function(e) {
             if (this.id === 'mapButton') {
                 closeAllPopovers();  // Close any open popovers when map is clicked
+                window.siteAnalytics.trackMapInteraction('show_map');
                 return;
             }
             
@@ -158,8 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 buttons.forEach(b => b.classList.remove('active'));
                 if (!isShowing) {
                     this.classList.add('active');
+                    window.siteAnalytics.trackMapInteraction(`show_${this.id.replace('Button', '')}`);
                 } else {
                     mapButton.classList.add('active');
+                    window.siteAnalytics.trackMapInteraction(`hide_${this.id.replace('Button', '')}`);
                 }
             }
         });

@@ -6,3 +6,4 @@ assets/images/
 
 # System files
 .DS_Store 
+node_modules

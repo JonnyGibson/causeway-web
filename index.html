@@ -73,17 +73,77 @@
         </button>
     </div>
 
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+
+    <!-- Initialize Firebase -->
     <script>
-        // Register Service Worker
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDf-pQ5bt2or5fP8axoWiQWG2fCQ1aBAI",
+            authDomain: "giants-causeway-web-app.firebaseapp.com",
+            projectId: "giants-causeway-web-app",
+            storageBucket: "giants-causeway-web-app.firebasestorage.app",
+            messagingSenderId: "1010372364996",
+            appId: "1:1010372364996:web:ff522c2fc8efff0cc49791",
+            measurementId: "G-LWDHCB2G9D"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.analytics();
+
+        // Analytics wrapper functions
+        window.siteAnalytics = {
+            trackEvent: (eventName, params = {}) => {
+                try {
+                    analytics.logEvent(eventName, {
+                        ...params,
+                        timestamp: new Date().toISOString()
+                    });
+                } catch (error) {
+                    console.error('Analytics error:', error);
+                }
+            },
+            trackAudioPlay: (audioPoint) => {
+                window.siteAnalytics.trackEvent('audio_play', {
+                    audio_id: audioPoint.id,
+                    audio_title: audioPoint.title
+                });
+            },
+            trackAudioComplete: (audioPoint) => {
+                window.siteAnalytics.trackEvent('audio_complete', {
+                    audio_id: audioPoint.id,
+                    audio_title: audioPoint.title
+                });
+            },
+            trackOfflineUsage: () => {
+                window.siteAnalytics.trackEvent('offline_usage');
+            },
+            trackMapInteraction: (interactionType) => {
+                window.siteAnalytics.trackEvent('map_interaction', {
+                    type: interactionType
+                });
+            }
+        };
+    </script>
+
+    <!-- Your custom JavaScript -->
+    <script src="./assets/js/app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./assets/js/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
+                const swPath = window.location.pathname.includes('causeway') ? '/causeway/sw.js' : '/sw.js';
+                navigator.serviceWorker.register(swPath)
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope:', registration.scope);
+                })
+                .catch(err => {
+                    console.error('ServiceWorker registration failed:', err);
+                });
             });
 
             // Monitor online/offline status
@@ -95,6 +155,7 @@
             const offlineStatus = document.getElementById('offlineStatus');
             if (!navigator.onLine) {
                 offlineStatus.style.display = 'block';
+                window.siteAnalytics.trackOfflineUsage();
             } else {
                 offlineStatus.style.display = 'none';
             }
@@ -103,6 +164,5 @@
         // Check initial status
         updateOnlineStatus();
     </script>
-    <script src="./assets/js/app.js"></script>
 </body>
 </html> 
