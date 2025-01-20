@@ -1,0 +1,16 @@
+{
+    "name": "Giant's Causeway Audio Guide",
+    "short_name": "Causeway Guide",
+    "description": "An interactive audio guide for the Giant's Causeway",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#324D01",
+    "theme_color": "#324D01",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+} 
